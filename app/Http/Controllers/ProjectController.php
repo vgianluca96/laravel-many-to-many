@@ -61,9 +61,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $type = Type::find($project->type_id);
-
-        return view('admin.projects.show', compact('project'), compact('type'));
+        return view('admin.projects.show', compact('project'));
     }
 
     /**

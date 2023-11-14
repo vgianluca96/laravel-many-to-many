@@ -16,7 +16,7 @@
         <div>
           <strong>Type:</strong>
           @if($project->type_id)
-          <span class="badge bg-primary">{{$type->name}}</span>
+          <span class="badge bg-primary">{{$project->type->name}}</span>
           @else
           <span class="badge bg-secondary">No Type assigned</span>
           @endif
