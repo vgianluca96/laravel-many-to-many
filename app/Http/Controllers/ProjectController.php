@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Type;
+use App\Models\Technology;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use App\Models\Type;
 
 class ProjectController extends Controller
 {
@@ -30,8 +31,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -51,7 +53,8 @@ class ProjectController extends Controller
             $data['preview'] = $file_path;
         }
 
-        Project::create($data);
+        $project = Project::create($data);
+        $project->technologies()->attach($request->technologies);
 
         return to_route('admin.projects.index')->with('message', 'project successfully created!');
     }

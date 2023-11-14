@@ -16,10 +16,29 @@
         <div>
           <strong>Type:</strong>
           @if($project->type_id)
-          <span class="badge bg-primary">{{$project->type->name}}</span>
+          <span class="badge bg-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag" viewBox="0 0 16 16">
+              <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
+              <path d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
+            </svg> {{$project->type->name}}
+          </span>
           @else
-          <span class="badge bg-secondary">No Type assigned</span>
+          <span class="badge bg-danger">No Type assigned</span>
           @endif
+        </div>
+        <div>
+          <strong>Technologies:</strong>
+          
+          @forelse ($project->technologies as $technology)
+          <span class="badge bg-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-code" viewBox="0 0 16 16">
+              <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+              <path d="M8.646 6.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 9 8.646 7.354a.5.5 0 0 1 0-.708zm-1.292 0a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L5.707 9l1.647-1.646a.5.5 0 0 0 0-.708z"/>
+            </svg> {{$technology->name}}
+        </span>
+          @empty
+          <span class="badge text-bg-warning">No Technology assigned</span>
+          @endforelse
         </div>
         <div class="d-flex align-items-center py-2">
           <div>

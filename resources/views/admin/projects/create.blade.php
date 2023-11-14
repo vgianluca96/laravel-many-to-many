@@ -47,6 +47,20 @@
           @enderror
       </div>
 
+      <div class="col-md-12">
+        <label for="projectTechnology" class="form-label">Select a Technology</label>
+        <select multiple class="form-control" name="technologies[]" id="projectTechnology">
+          @foreach($technologies as $technology)
+          <option value="{{$technology->id}}" {{in_array($technology->id,old('technologies',[])) ? 'selected' : ''}}>{{$technology->name}}</option>
+          @endforeach
+        </select>
+        @error('technologies')
+          <div class="text-danger">
+            {{$message}}
+          </div>
+        @enderror
+    </div>
+
         <div class="col-md-6">
             <label for="projectGithubLink" class="form-label">Github Link</label>
             <input type="text" class="form-control @error('github_link') is-invalid @enderror" id="projectGithubLink" name="github_link" placeholder="https://github.com/vgianluca96/folder-name" value="{{old('github_link')}}">
