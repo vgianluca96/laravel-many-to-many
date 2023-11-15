@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\Admin\TechnologyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     Route::resource('types', TypeController::class);
     Route::get('/types/{type:slug}/edit', [TypeController::class, 'edit'])->name('types.edit');
+
+    Route::resource('technologies', TechnologyController::class);
+    Route::get('/technologies/{technology:slug}/edit', [TechnologyController::class, 'edit'])->name('technologies.edit');
 });
 
 
