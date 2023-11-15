@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class TypeController extends Controller
 {
@@ -13,7 +15,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::orderByDesc('id')->paginate(4);
+        $types = Type::paginate(4);
 
         return view('admin.types.index', compact('types'));
     }
@@ -23,6 +25,7 @@ class TypeController extends Controller
      */
     public function create()
     {
+        return view('admin.types.create');
     }
 
     /**
@@ -30,6 +33,18 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
+
+        $data = $request->validate(
+            [
+                'name' => 'required|unique:types,name'
+            ]
+        );
+
+        $data['slug'] = Str::slug($data['name'], '-');
+
+        Type::create($data);
+
+        return to_route('admin.types.index')->with('message', 'type successfully created!');
     }
 
     /**
@@ -44,6 +59,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
+        return view('admin.types.edit', compact('type'));
     }
 
     /**
@@ -51,6 +67,17 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
+        $data = $request->validate(
+            [
+                'name' => ['required', Rule::unique('types')->ignore($type)]
+            ]
+        );
+
+        $data['slug'] = Str::slug($data['name'], '-');
+
+        $type->update($data);
+
+        return to_route('admin.types.index')->with('message', 'type successfully updated!');
     }
 
     /**
@@ -58,5 +85,12 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
+
+        //dd($type->steps);
+        $type->cascadeOnDelete();
+        //$type->steps->delete();
+        $type->delete();
+
+        return to_route('admin.types.index')->with('message', 'type successfully deleted!');
     }
 }
