@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Type;
+use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -86,9 +87,8 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
 
-        //dd($type->steps);
-        $type->cascadeOnDelete();
-        //$type->steps->delete();
+        //Project::where('type_id', $type->id)->update(array('type_id' => null));
+        $type->projects()->where('type_id', $type->id)->update(array('type_id' => null));
         $type->delete();
 
         return to_route('admin.types.index')->with('message', 'type successfully deleted!');

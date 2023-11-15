@@ -89,19 +89,7 @@
             <h2>Da implementare:</h2>
             <ul>
                 <li>
-                    create.blade + CRUD create e store
-                </li>
-                <li>
-                    edit.blade + CRUD edit e update
-                </li>
-                <li>
-                    CRUD destroy (cosa succede se elimino un type già assegnato a uno o più progetti?)
-                </li>
-                <li>
                     CRUD show (serve visto che non ci sono dettagli da mostrare?? mostro tutti i progetti etichettati con quel tipo?)
-                </li>
-                <li>
-                    eventuali regole di validation
                 </li>
                 <li>
                     Migration che aggiunga la colonna 'Description' alla table types
