@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class TechnologyController extends Controller
 {
@@ -23,7 +25,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -31,7 +33,18 @@ class TechnologyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->validate(
+            [
+                'name' => 'required|unique:technologies,name'
+            ]
+        );
+
+        $data['slug'] = Str::slug($request->name, '-');
+
+        Technology::create($data);
+
+        return to_route('admin.technologies.index')->with('message', 'technology successfully created!');
     }
 
     /**
@@ -47,7 +60,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view('admin.technologies.edit', compact('technology'));
     }
 
     /**
@@ -55,7 +68,17 @@ class TechnologyController extends Controller
      */
     public function update(Request $request, Technology $technology)
     {
-        //
+        $data = $request->validate(
+            [
+                'name' => ['required', Rule::unique('technologies')->ignore($technology)]
+            ]
+        );
+
+        $data['slug'] = Str::slug($request->name, '-');
+
+        $technology->update($data);
+
+        return to_route('admin.technologies.index')->with('message', 'technology successfully updated!');
     }
 
     /**
@@ -63,6 +86,10 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $technology->projects()->detach();
+
+        $technology->delete();
+
+        return to_route('admin.technologies.index')->with('message', 'technology successfully deleted!');
     }
 }
